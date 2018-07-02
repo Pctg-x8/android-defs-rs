@@ -1,4 +1,5 @@
 extern crate libc;
+extern crate jni;
 
 /// rect
 #[repr(C)] pub struct ARect {

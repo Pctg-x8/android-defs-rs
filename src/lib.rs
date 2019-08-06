@@ -1,5 +1,6 @@
 extern crate libc;
 extern crate jni;
+extern crate widestring;
 
 /// rect
 #[repr(C)] pub struct ARect {
@@ -12,6 +13,7 @@ mod input; pub use self::input::*;
 mod configuration; pub use self::configuration::*;
 mod native_activity; pub use self::native_activity::*;
 pub mod looper; pub use self::looper::*;
+mod font; pub use self::font::*;
 use libc::*;
 
 #[repr(C)]

@@ -5,5 +5,5 @@ authors = ["S.Percentage <Syn.Tri.Naga@gmail.com>"]
 
 [dependencies]
 libc = "0.2"
-jni = "0.10"
+jni = "0.15"
 widestring = "0.4"

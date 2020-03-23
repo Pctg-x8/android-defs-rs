@@ -14,5 +14,5 @@ extern "C" {
     pub fn ANativeWindow_getWidth(window: *mut ANativeWindow) -> i32;
     pub fn ANativeWindow_getHeight(window: *mut ANativeWindow) -> i32;
     pub fn ANativeWindow_getFormat(window: *mut ANativeWindow) -> i32;
-    pub fn ANativeWindow_fromSurface(env: *mut jni::JNIEnv, surface: jni::objects::JObject) -> *mut ANativeWindow;
+    pub fn ANativeWindow_fromSurface(env: jni::JNIEnv, surface: jni::objects::JObject) -> *mut ANativeWindow;
 }

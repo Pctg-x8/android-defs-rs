@@ -15,7 +15,7 @@ pub type off64_t = c_longlong;
 
 #[allow(non_snake_case)]
 extern "C" {
-    pub fn AAssetManager_fromJava(env: *mut jni::JNIEnv, assetManager: jni::objects::JObject) -> *mut AAssetManager;
+    pub fn AAssetManager_fromJava(env: jni::JNIEnv, assetManager: jni::objects::JObject) -> *mut AAssetManager;
     pub fn AAssetManager_openDir(mgr: *mut AAssetManager, dirName: *const c_char) -> *mut AAssetDir;
     pub fn AAssetManager_open(mgr: *mut AAssetManager, filename: *const c_char, mode: c_int) -> *mut AAsset;
     pub fn AAssetDir_getNextFileName(assetDir: *mut AAssetDir) -> *const c_char;
@@ -39,7 +39,7 @@ use std::ptr::NonNull;
 pub struct AssetManager(NonNull<AAssetManager>);
 impl AssetManager {
     pub unsafe fn from_ptr(p: *mut AAssetManager) -> Option<Self> { NonNull::new(p).map(AssetManager) }
-    pub unsafe fn from_java(env: &mut jni::JNIEnv, object: jni::objects::JObject) -> Option<Self> {
+    pub unsafe fn from_java(env: jni::JNIEnv, object: jni::objects::JObject) -> Option<Self> {
         NonNull::new(AAssetManager_fromJava(env, object)).map(AssetManager)
     }
 

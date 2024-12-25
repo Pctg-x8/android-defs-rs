@@ -1,5 +1,5 @@
 use super::*;
-use jni::sys::{jobject, JNIEnv, JavaVM};
+use jni_sys::{jobject, JNIEnv, JavaVM};
 
 #[repr(C)]
 pub struct ANativeActivity {

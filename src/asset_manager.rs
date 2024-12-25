@@ -1,3 +1,5 @@
+use jni_sys::{jobject, JNIEnv};
+
 #[repr(C)]
 pub struct AAssetManager(
     [u8; 0],
@@ -29,8 +31,8 @@ pub type off64_t = core::ffi::c_longlong;
 #[allow(non_snake_case)]
 unsafe extern "C" {
     pub unsafe fn AAssetManager_fromJava(
-        env: jni::JNIEnv,
-        assetManager: jni::objects::JObject,
+        env: *mut JNIEnv,
+        assetManager: jobject,
     ) -> *mut AAssetManager;
     pub unsafe fn AAssetManager_openDir(
         mgr: *mut AAssetManager,

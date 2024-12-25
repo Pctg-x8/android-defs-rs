@@ -1,43 +1,50 @@
 //! ALooper
 
-use libc::*;
-use std::ptr::NonNull;
-use std::mem::replace;
+#[repr(C)]
+pub struct ALooper(
+    [u8; 0],
+    core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+);
 
-pub enum ALooper {}
+pub const ALOOPER_PREPARE_ALLOW_NON_CALLBACKS: core::ffi::c_int = 1 << 0;
 
-pub const ALOOPER_PREPARE_ALLOW_NON_CALLBACKS: c_int = 1 << 0;
+pub const ALOOPER_EVENT_INPUT: core::ffi::c_int = 1 << 0;
+pub const ALOOPER_EVENT_OUTPUT: core::ffi::c_int = 1 << 1;
+pub const ALOOPER_EVENT_ERROR: core::ffi::c_int = 1 << 2;
+pub const ALOOPER_EVENT_HANGUP: core::ffi::c_int = 1 << 3;
+pub const ALOOPER_EVENT_INVALID: core::ffi::c_int = 1 << 4;
 
-pub const ALOOPER_EVENT_INPUT: c_int = 1 << 0;
-pub const ALOOPER_EVENT_OUTPUT: c_int = 1 << 1;
-pub const ALOOPER_EVENT_ERROR: c_int = 1 << 2;
-pub const ALOOPER_EVENT_HANGUP: c_int = 1 << 3;
-pub const ALOOPER_EVENT_INVALID: c_int = 1 << 4;
-
-pub type CallbackFunc = Option<fn(c_int, c_int, *mut c_void) -> c_int>;
+#[allow(non_camel_case_types)]
+pub type ALooper_callbackFunc = Option<
+    extern "C" fn(core::ffi::c_int, core::ffi::c_int, *mut core::ffi::c_void) -> core::ffi::c_int,
+>;
 
 #[allow(non_snake_case)]
-extern "C" {
-    pub fn ALooper_forThread() -> *mut ALooper;
-    pub fn ALooper_prepare(opts: c_int) -> *mut ALooper;
-    pub fn ALooper_acquire(looper: *mut ALooper);
-    pub fn ALooper_release(looper: *mut ALooper);
-    pub fn ALooper_pollOnce(timeout_millis: c_int, outfd: *mut c_int, out_events: *mut c_int, out_data: *mut *mut c_void) -> c_int;
-    pub fn ALooper_pollAll(timeout_millis: c_int, outfd: *mut c_int, outevents: *mut c_int, outdata: *mut *mut c_void) -> c_int;
-    pub fn ALooper_wake(looper: *mut ALooper);
-}
-
-pub struct Looper(NonNull<ALooper>);
-impl Looper {
-    pub fn prepare(opts: c_int) -> Option<Self> {
-        NonNull::new(unsafe { ALooper_prepare(opts) }).map(Looper)
-    }
-    pub fn poll_all(timeout: c_int, outfd: &mut c_int, outevents: &mut c_int, outdata: *mut *mut c_void) -> c_int {
-        unsafe { ALooper_pollAll(timeout, outfd, outevents, outdata) }
-    }
-}
-impl Drop for Looper {
-    fn drop(&mut self) {
-        unsafe { ALooper_release(replace(&mut self.0, NonNull::dangling()).as_ptr()) }
-    }
+unsafe extern "C" {
+    pub unsafe fn ALooper_forThread() -> *mut ALooper;
+    pub unsafe fn ALooper_prepare(opts: core::ffi::c_int) -> *mut ALooper;
+    pub unsafe fn ALooper_acquire(looper: *mut ALooper);
+    pub unsafe fn ALooper_release(looper: *mut ALooper);
+    pub unsafe fn ALooper_pollOnce(
+        timeout_millis: core::ffi::c_int,
+        outfd: *mut core::ffi::c_int,
+        out_events: *mut core::ffi::c_int,
+        out_data: *mut *mut core::ffi::c_void,
+    ) -> core::ffi::c_int;
+    pub unsafe fn ALooper_pollAll(
+        timeout_millis: core::ffi::c_int,
+        outfd: *mut core::ffi::c_int,
+        outevents: *mut core::ffi::c_int,
+        outdata: *mut *mut core::ffi::c_void,
+    ) -> core::ffi::c_int;
+    pub unsafe fn ALooper_addFd(
+        looper: *mut ALooper,
+        fd: core::ffi::c_int,
+        ident: core::ffi::c_int,
+        events: core::ffi::c_int,
+        callback: ALooper_callbackFunc,
+        data: *mut core::ffi::c_void,
+    ) -> core::ffi::c_int;
+    pub unsafe fn ALooper_removeFd(looper: *mut ALooper, fd: core::ffi::c_int) -> core::ffi::c_int;
+    pub unsafe fn ALooper_wake(looper: *mut ALooper);
 }

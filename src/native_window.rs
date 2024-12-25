@@ -13,4 +13,6 @@ unsafe extern "C" {
         env: jni::JNIEnv,
         surface: jni::objects::JObject,
     ) -> *mut ANativeWindow;
+    pub unsafe fn ANativeWindow_acquire(window: *mut ANativeWindow);
+    pub unsafe fn ANativeWindow_release(window: *mut ANativeWindow);
 }

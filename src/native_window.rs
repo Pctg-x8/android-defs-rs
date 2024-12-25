@@ -1,3 +1,5 @@
+use jni::{objects::JObject, JNIEnv};
+
 #[repr(C)]
 pub struct ANativeWindow(
     [u8; 0],
@@ -9,10 +11,7 @@ unsafe extern "C" {
     pub unsafe fn ANativeWindow_getWidth(window: *mut ANativeWindow) -> i32;
     pub unsafe fn ANativeWindow_getHeight(window: *mut ANativeWindow) -> i32;
     pub unsafe fn ANativeWindow_getFormat(window: *mut ANativeWindow) -> i32;
-    pub unsafe fn ANativeWindow_fromSurface(
-        env: jni::JNIEnv,
-        surface: jni::objects::JObject,
-    ) -> *mut ANativeWindow;
+    pub unsafe fn ANativeWindow_fromSurface(env: JNIEnv, surface: JObject) -> *mut ANativeWindow;
     pub unsafe fn ANativeWindow_acquire(window: *mut ANativeWindow);
     pub unsafe fn ANativeWindow_release(window: *mut ANativeWindow);
 }

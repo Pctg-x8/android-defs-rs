@@ -11,4 +11,3 @@ autolink-libandroid = []
 [dependencies]
 libc = "0.2"
 jni = "0.15"
-widestring = "0.4"

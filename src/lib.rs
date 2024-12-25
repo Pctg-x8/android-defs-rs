@@ -65,3 +65,6 @@ pub const APP_CMD_SAVE_STATE: i32 = 12;
 pub const APP_CMD_PAUSE: i32 = 13;
 pub const APP_CMD_STOP: i32 = 14;
 pub const APP_CMD_DESTROY: i32 = 15;
+
+#[cfg_attr(feature = "autolink-libandroid", link(name = "android"))]
+unsafe extern "C" {}

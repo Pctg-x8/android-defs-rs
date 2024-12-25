@@ -39,7 +39,7 @@ unsafe extern "C" {
     pub unsafe fn __android_log_assert(cond: *const core::ffi::c_char, tag: *const core::ffi::c_char, fmt: *const core::ffi::c_char, ...);
     pub unsafe fn __android_log_buf_print(bufId: core::ffi::c_int, prio: core::ffi::c_int, tag: *const core::ffi::c_char, fmt: *const core::ffi::c_char, ...) -> core::ffi::c_int;
     pub unsafe fn __android_log_buf_write(bufId: core::ffi::c_int, prio: core::ffi::c_int, tag: *const core::ffi::c_char, text: *const core::ffi::c_char) -> core::ffi::c_int;
-    pub unsafe fn __androidlog_call_aborter(abort_message: *const core::ffi::c_char);
+    pub unsafe fn __android_log_call_aborter(abort_message: *const core::ffi::c_char);
     pub unsafe fn __android_log_default_aborter(abort_message: *const core::ffi::c_char);
     pub unsafe fn __android_log_get_minimum_priority() -> i32;
     pub unsafe fn __android_log_is_loggable(prio: core::ffi::c_int, tag: *const core::ffi::c_char, default_prio: core::ffi::c_int) -> core::ffi::c_int;
